@@ -3,91 +3,53 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard cards adaptivity</title>
-    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.0.min.js"></script>
-    <!-- DevExtreme themes -->
-    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.common.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.light.css" />
-    <!-- A DevExtreme library -->
-    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/17.1.4/js/dx.all.js"></script>
-    <style type="text/css">
-	.conttainer {
-		height: 700px;
-	}
-
-    .container__flow-group {
-    	float: left;
-    	width: 100%;
-    	box-sizing: border-box;
-    }
-
-    .card {
-    	height: 100%;
-        float: left;
-        /*position: relative;*/
-        min-height: 1px;
-        padding: 15px;
-        box-sizing: border-box;
-        /*padding: 1em;*/
-    }
-
-    .card_control {
-        box-sizing: border-box;
-        border: 1px solid #eee;
-        -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
-        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
-    }
-
-
-    @media (max-width: 500px) {
-        .card_small {
-            width: 100%;
-        }
-        .card_large {
-            width: 100%;
-        }
-    }
-
-    @media (min-width: 500px) {
-        
-        .card_small {
-            width: 50%;
-        }
-        .card_large {
-            width: 100%;
-        }
-    }
-
-    @media (min-width: 900px) {
-        .container__flow-group {
-        	width: 33.33%;
-        }
-        .card_small {
-            width: 100%;
-        }
-        .card_large {
-            width: 66.66%;
-        }
-    }
-    </style>
-    <script type="text/javascript" src="script.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="container__flow-group">
-            <div class="card card_small">
-                <div id="gauge1"></div>
-            </div>
-            <div class="card card_small">
-                <div id="gauge2"></div>
-            </div>
-        </div>
-        <div class="card card_large">
-            <div id="grid1"></div>
-        </div>
-    </div>
+    <header>
+        <h2 class="header__caption">
+            Choose a layout
+        </h2>
+    </header>
+    <ul class="menu">
+        <li class="menu__item">
+            <a href="layout1.html" class="item__link">
+                <figure class="item__figure">
+                    <p><img width="200" height="200" src="images/layout1.bmp" alt="Layout 1"></p>
+                    <figcaption>Simple 2 medium - 1 large widgets</figcaption>
+                </figure>
+            </a>
+        </li>
+        <li class="menu__item">
+            <a href="layout2.html" class="item__link">
+                <figure class="item__figure">
+                    <p><img width="200" height="200" src="images/layout2.bmp" alt="Layout 2"></p>
+                    <figcaption>Simple 3 medium - 1 large widgets</figcaption>
+                </figure>
+            </a>
+        </li>
+        <li class="menu__item in-progress">
+            <a href="layout3.html" class="item__link">
+                <figure class="item__figure">
+                    <p><img width="200" height="200" src="images/layout3.bmp" alt="Layout 3"></p>
+                    <figcaption>Simple 2 small - 1 large widgets</figcaption>
+                </figure>
+            </a>
+        </li>
+        <li class="menu__item in-progress">
+            <a href="layout4.html" class="item__link">
+                <figure class="item__figure">
+                    <p><img width="200" height="200" src="images/layout4.bmp" alt="Layout 4"></p>
+                    <figcaption>Simple 2 small - 1 large widgets</figcaption>
+                </figure>
+            </a>
+        </li>
+    </ul>
 </body>
 
 </html>

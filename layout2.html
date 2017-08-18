@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Layout 2</title>
+
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/event.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/supplemental.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/unresolved.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/message.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/number.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/currency.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/date.min.js"></script>
+    <!-- DevExtreme themes -->
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.common.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.light.css" />
+    <!-- A DevExtreme library -->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/17.1.4/js/dx.all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="data.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $("#grid1").dxDataGrid({
+                dataSource: weekData,
+                showRowLines: true,
+                sorting: {
+                    mode: "none"
+                },
+                paging: {
+                    pageSize: 7
+                },
+                onCellPrepared: function(options) {
+                    var fieldData = options.value,
+                        fieldHtml = "";
+                    if(fieldData && fieldData.value) {
+                        if(fieldData.diff) {
+                            options.cellElement.addClass((fieldData.diff > 0) ? "inc" : "dec");
+                            fieldHtml += "<span class='current-value'>" +
+                                Globalize.formatCurrency(fieldData.value, "USD") +
+                                "</span> <span class='diff'>" +
+                                Math.abs(fieldData.diff).toFixed(2) +
+                                "  </span>";
+                        } else {
+                            fieldHtml = fieldData.value;
+                        }
+                        options.cellElement.html(fieldHtml);
+                    }
+                },
+                columns: [
+                    "open",
+                    "close",
+                    {
+                        caption: "Dynamics",
+                        width: 155,
+                        cellTemplate: function(container, options) {
+                            container.addClass("chart-cell");
+                            $("<div />").dxSparkline({ 
+                                dataSource: options.data.dayClose,
+                                argumentField: "date",
+                                valueField: "close",
+                                type: "line",
+                                showMinMax: true,
+                                lineColor: "#565077",
+                                minColor: "#f00",
+                                maxColor: "#2ab71b",
+                                pointSize: 6,
+                                size: {
+                                    width: 140,
+                                    height: 30
+                                },
+                                tooltip: {
+                                    enabled: false
+                                }
+                            }).appendTo(container);
+                        }
+                    }
+                ]
+            });
+
+            $("#areaChart").dxChart({
+                palette: "Harmony Light",
+                dataSource: areaChartDataSource,
+                commonSeriesSettings: {
+                    type: types[0],
+                    argumentField: "country"
+                },
+                series: [
+                    { valueField: "y1564", name: "15-64 years" },
+                    { valueField: "y014", name: "0-14 years" },
+                    { valueField: "y65", name: "65 years and older" }
+                ],
+                margin: {
+                    bottom: 20
+                },
+                title: "Population: Age Structure (2000)",
+                argumentAxis: {
+                    valueMarginsEnabled: false
+                },
+                valueAxis: {
+                    label: {
+                        format: "millions"
+                    }
+                },
+                "export": {
+                    enabled: true
+                },
+                legend: {
+                    verticalAlignment: "bottom",
+                    horizontalAlignment: "center"
+                }
+            });
+
+            $('#gauge1').dxCircularGauge({
+                scale: {
+                    startValue: 10,
+                    endValue: 40,
+                    tickInterval: 5,
+                    label: {
+                        customizeText: function(arg) {
+                            return arg.valueText + " °C";
+                        }
+                    }
+                },
+                rangeContainer: {
+                    ranges: [
+                        { startValue: 10, endValue: 20, color: "#0077BE" },
+                        { startValue: 20, endValue: 30, color: "#E6E200" },
+                        { startValue: 30, endValue: 40, color: "#77DD77" }
+                    ]
+                },
+                tooltip: { enabled: true },
+                title: {
+                    text: "Temperature in the Greenhouse",
+                    font: { size: 28 }
+                },
+                value: dataSource[0].mean,
+                subvalues: [dataSource[0].min, dataSource[0].max],
+                // onInitialized: function (args) {
+                //     args.element.addClass('card_control');
+                // }
+            });
+
+            $("#barChart").dxChart({
+                dataSource: barChartDataSource,
+                commonSeriesSettings: {
+                    argumentField: "state",
+                    type: "bar",
+                    hoverMode: "allArgumentPoints",
+                    selectionMode: "allArgumentPoints",
+                    label: {
+                        visible: true,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 0
+                        }
+                    }
+                },
+                series: [
+                    { valueField: "year2004", name: "2004" },
+                    { valueField: "year2001", name: "2001" },
+                    { valueField: "year1998", name: "1998" }
+                ],
+                title: "Gross State Product within the Great Lakes Region",
+                legend: {
+                    verticalAlignment: "bottom",
+                    horizontalAlignment: "center"
+                },
+                "export": {
+                    enabled: true
+                },
+                onPointClick: function (e) {
+                    e.target.select();
+                }
+            });
+            
+        });
+    </script>
+
+    <style>
+        #grid1 td {
+            vertical-align: middle;
+        }
+
+        #grid1 .chart-cell {
+            overflow: visible;
+        }
+
+        #grid1 span.current-value {
+            display: inline-block;
+            position: relative;
+        }
+
+        #grid1 span.diff {
+            float: right;
+        }
+
+        #grid1 .inc span.diff {
+            color: #2ab71b;
+        }
+
+        #grid1 .inc span.diff:before {
+            content: '+';
+        }
+
+        #grid1 .dec span.diff:before {
+            content: '-';
+        }
+
+        #grid1 .dec span.diff {
+            color: #f00;
+        }
+
+        #grid1 .inc span.current-value:after,
+        #grid1 .dec span.current-value:after {
+            content: '';
+            display: block;
+            height: 10px;
+            width: 10px;
+            position: absolute;
+            right: -12px;
+            top: 5px;
+            background-repeat: no-repeat;
+            background-size: 10px 10px;
+        }
+
+        #grid1 .inc span.current-value:after {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADKSURBVHjaYtTaLs1ABEiG0nPRJa56PEHhsxBhmCUQT4OyrwHxcXyKmQgYJgHE64CYDYrXQcXIMhCbAcgWkGzgNKh38QUB0QamIUUErkhKI9ZAGyCeTERkTYaqxWsgKA2txhdG6GGsvUNGGpeBRMUiGhCFGsqGzUBQQJsxkA5AemaiG5hDIBIIgQSgK0FmMDACs549kN5FZLjhA7+A2A2U9YSAOBeLAk4gnoBDczoOcSFGPIUDPxB/wCHHiKtwYGKgMhg1cBAaCBBgAJTUIL3ToPZfAAAAAElFTkSuQmCC');
+        }
+
+        #grid1 .dec span.current-value:after {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADJSURBVHjaYvzPgBfgkhYA4o8QFahKmBioDEYNHIQGsgBxIBCLkqgvAYi/g1mMjMjir0EJzR6If/6HpChKMMgMe3DKBeIcKhiY8x/MYoDj+RQYNgdkGLqBbEB8kgzDToL1YjEQhKWB+BUJhj0H64Eahs1AELYhMpJ+gtUiGYbLQBBOI8LANLBaIg1kAAc0vkiAqSPBQFAkHcNi2DGoHMkGgrAENOCRI0ECRQ2JBoKwJTQCfkLZDPgMZPxPXN5NhtJzMSsJVBMAAgwAyWSY2svfmrwAAAAASUVORK5CYII=');    
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3 class="header__caption">
+            3 medium - 1 large widgets layout
+        </h3>
+        <a href="index.html" class="header__link">Back</a>
+    </header>
+    <div class="container">
+        <div class="container__flow-group flow-top">
+            <div class="card card_small priority">
+                <div id="grid1"></div>
+            </div>
+            <div class="card card_small">
+                <div id="areaChart"></div>
+            </div>
+            <div class="card card_small">
+                <div id="gauge1"></div>
+            </div>
+        </div>
+        <div class="card card_large card_full-width">
+            <div id="barChart"></div>
+        </div>
+    </div>
+</body>
+</html>

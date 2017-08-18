@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Layout 1</title>
+
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.0.min.js"></script>
+    <!-- DevExtreme themes -->
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.common.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/17.1.4/css/dx.light.css" />
+    <!-- A DevExtreme library -->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/17.1.4/js/dx.all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#gauge1').dxCircularGauge({
+                scale: {
+                    startValue: 10,
+                    endValue: 40,
+                    tickInterval: 5,
+                    label: {
+                        customizeText: function(arg) {
+                            return arg.valueText + " °C";
+                        }
+                    }
+                },
+                rangeContainer: {
+                    ranges: [
+                        { startValue: 10, endValue: 20, color: "#0077BE" },
+                        { startValue: 20, endValue: 30, color: "#E6E200" },
+                        { startValue: 30, endValue: 40, color: "#77DD77" }
+                    ]
+                },
+                tooltip: { enabled: true },
+                title: {
+                    text: "Temperature in the Greenhouse",
+                    font: { size: 28 }
+                },
+                value: dataSource[0].mean,
+                subvalues: [dataSource[0].min, dataSource[0].max],
+                onInitialized: function (args) {
+                    args.element.addClass('card_control');
+                }
+            });
+            $('#gauge2').dxCircularGauge({
+                scale: {
+                    startValue: 10,
+                    endValue: 40,
+                    tickInterval: 5,
+                    label: {
+                        customizeText: function(arg) {
+                            return arg.valueText + " °C";
+                        }
+                    }
+                },
+                rangeContainer: {
+                    ranges: [
+                        { startValue: 10, endValue: 20, color: "#0077BE" },
+                        { startValue: 20, endValue: 30, color: "#E6E200" },
+                        { startValue: 30, endValue: 40, color: "#77DD77" }
+                    ]
+                },
+                tooltip: { enabled: true },
+                title: {
+                    text: "Temperature in the Greenhouse",
+                    font: { size: 28 }
+                },
+                value: dataSource[0].mean,
+                subvalues: [dataSource[0].min, dataSource[0].max],
+                onInitialized: function (args) {
+                    args.element.addClass('card_control');
+                }
+            });
+
+            $('#grid1').dxDataGrid({
+                dataSource: customers,
+                columns: ["CompanyName", "City", "State", "Phone", "Fax"],
+                columnHidingEnabled: true,
+                scrolling: {
+                    mode: 'virtual'
+                },
+                onInitialized: function (args) {
+                    args.element.addClass('card_control');
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h3 class="header__caption">
+            2 medium - 1 large widgets layout
+        </h3>
+        <a href="index.html" class="header__link">Back</a>
+    </header>
+    <div class="container">
+        <div class="container__flow-group">
+            <div class="card card_small">
+                <div id="gauge1"></div>
+            </div>
+            <div class="card card_small">
+                <div id="gauge2"></div>
+            </div>
+        </div>
+        <div class="card card_large">
+            <div id="grid1"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -180,26 +180,6 @@ var customers = [{
     "Phone": "(800) 445-6937",
     "Fax": "(800) 445-6938",
     "Website": "http://www.nowebsitescreenshop.com"
-}, {
-    "ID": 18,
-    "CompanyName": "Screen Shop",
-    "Address": "1000 Lowes Blvd",
-    "City": "Mooresville",
-    "State": "North Carolina",
-    "Zipcode": 28117,
-    "Phone": "(800) 445-6937",
-    "Fax": "(800) 445-6938",
-    "Website": "http://www.nowebsitescreenshop.com"
-}, {
-    "ID": 19,
-    "CompanyName": "Screen Shop",
-    "Address": "1000 Lowes Blvd",
-    "City": "Mooresville",
-    "State": "North Carolina",
-    "Zipcode": 28117,
-    "Phone": "(800) 445-6937",
-    "Fax": "(800) 445-6938",
-    "Website": "http://www.nowebsitescreenshop.com"
 }];
 
 var weekData = [{

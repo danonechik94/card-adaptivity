@@ -13,54 +13,7 @@ header {
     text-align: center;
 }
 
-.menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
 
-.in-progress {
-    position: relative;
-}
-
-.in-progress:before{
-    position: absolute;
-    content:" ";
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    display: block;
-    z-index:0;
-    background-color: rgba(153, 153, 153, 0.45);
-}
-.menu__item {
-    width: 25%;
-    float: left;
-}
-
-.item__figure {
-    padding: 10px;
-    text-align: center;
-}
-
-.item__link {
-    color: inherit;
-    text-decoration: none;
-}
-
-@media (max-width: 950px) {
-    .menu__item {
-        width: 50%;
-    }
-}
-
-@media (max-width: 500px) {
-    .menu__item {
-        width: 100%;
-    }
-}
 
 .container {
 		height: 700px;
